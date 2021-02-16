@@ -6,54 +6,51 @@ using namespace std;
  
 int agregar()
 {
-	string nom,apl,line,file_name;
-	int tel, count;
+	string nom,apl,file_name;
+	int tel;
+
+	cout << "Ingrese el nombre del directorio: ";
+	cin >> file_name;
 
 	ofstream dir;
-    dir.open (file_name);
-
-    if (dir.is_open()) 
-    {
-    	while (dir)
-    	{
-    		count++;
-    	}
-    }
-
-	cout << "Nombre: ";
+    dir.open (file_name+".txt",ios::app);
+    cout << "Nombre: ";
 	cin >> nom;
 	cout << "Apellido: ";
 	cin >> apl;
 	cout << "Telefono: ";
 	cin >> tel;
 
-	dir << nom << "," << apl << "," << tel << endl;
-
+	dir << "\n" << nom << "," << apl << "," << tel << endl;
     dir.close();
+
 	return 0;
 }
 
 int nuevo()
 {
-	string file_name;
+	string nom,apl,file_name;
+	int tel;
 
 	cout << "Ingrese el nombre del directorio nuevo: ";
 	cin >> file_name;
 
 	ofstream dir;
-    dir.open (file_name);
-    dir << "Writing this to a file.\n";
+    dir.open (file_name+".txt");
+    
     dir.close();
-
-	agregar();
+    cout << "Directorio creado...\n\n";
 	return 0;
 }
 
 int visualizar()
 {
-	string line;
+	string line, file_name;
 
-	ifstream file ("directorio.txt");
+	cout << "Ingrese el nombre del directorio nuevo: ";
+	cin >> file_name;
+
+	ifstream file (file_name+".txt");
 	if (file.is_open()) 
 	{
 		getline (file,line);
@@ -67,27 +64,27 @@ int visualizar()
 	return 0;
 }
 
-int salir()
-{
-
-	return 0;
-}
 
 int main()
 {
-	while(true)
+	bool stop=true;
+	while(stop)
 	{
-		int opc;
-		cout << "Escoja una de las opciones: \n 1.Crear directorio \n 2.Agregar contacto \n 3.Visualizar contactos \n 4.Salir";
+		int opc=0;
+	cout << "Escoja una de las opciones: \n 1.Crear directorio nuevo \n 2.Agregar contacto \n 3.Visualizar \n 4.Salir ";
 		cin >> opc;
 
 		switch(opc)
 		{
 			case 1: nuevo();
+			break;
 			case 2: agregar();
+			break;
 			case 3: visualizar();
-			case 4: salir();
-			//default: cout << "Opcion incorrecta"; 
+			break;
+			case 4: stop=false;
+			break;
+			default: cout << "Seleccione de nuevo\n\n"; 
 		}	
 	}
 	
