@@ -1,0 +1,6 @@
+1,Edad: 21,Sexo: F,Altura: 1.62
+2,Edad: 30,Sexo: M,Altura: 1.5
+3,Edad: 40,Sexo: M,Altura: 2
+4,Edad: 40,Sexo: M,Altura: 1.7
+5,Edad: 30,Sexo: M,Altura: 1.7
+6,Edad: 10,Sexo: M,Altura: 2

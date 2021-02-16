@@ -71,7 +71,7 @@ int main()
 	while(stop)
 	{
 		int opc=0;
-	cout << "Escoja una de las opciones: \n 1.Crear directorio nuevo \n 2.Agregar contacto \n 3.Visualizar \n 4.Salir ";
+		cout << "Escoja una de las opciones: \n 1.Crear directorio nuevo \n 2.Agregar contacto \n 3.Visualizar \n 4.Salir ";
 		cin >> opc;
 
 		switch(opc)
