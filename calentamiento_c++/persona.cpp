@@ -1,37 +1,38 @@
 #include <iostream>
-using namespace std
+#include <fstream>
+#include <string>
+using namespace std;
 
-int nuevo()
+int res_cod()
 {
-	
-	return(0)
-}
-	
-
-int agregar()
-{
-	char nom,apl;
-	int tel;
-
-	cout >> "Nombre: ";
-	cin << nom;
-	cout >> "Apellido: ";
-	cin << apl;
-	cout >> "Telefono: ";
-	cin >> tel;
+	ofstream log;
+    log.open ("registry.txt",ios::app);
+    if(log.is_open())
+    {
+    	while()
+    }
+    log.close()
 	return 0;
 }
 
-int visualizar()
-{
-
-
-}
 
 int main()
 {
-	int opcion;
-	cout >> "Escoja una de las opciones: \n 1.Crear directorio \n 2.Agregar contacto \n 3.Visualizar contactos";
-	cin << opcion;
+	int ed, cod=0;
+	float alt;
+	string sx;
+	bool stop=true;
+	while(stop)
+		cout << "Ingrese los datos: \n 1.Edad";
+		cin >> ed;
+		cout << "\n2.Sexo";
+		cin >> sx;
+		cout << "\n3.Altura";
+		cin >> alt;
+		cout << "\nEdad: " << ed << " Sexo: " << sx << " Altura: " << alt << endl;
+		cod++;
+		cout << "Codigo de identificacion: " << cod << endl; 
+		cout << "Guardado...\n";
+
 	return 0;
 }

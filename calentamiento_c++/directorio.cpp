@@ -21,7 +21,7 @@ int agregar()
 	cout << "Telefono: ";
 	cin >> tel;
 
-	dir << "\n" << nom << "," << apl << "," << tel << endl;
+	dir << nom << "," << apl << "," << tel << endl;
     dir.close();
 
 	return 0;
