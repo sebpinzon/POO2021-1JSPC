@@ -73,7 +73,7 @@ int main()
 			case 1: 
 			{
 				try {
-					if (count_R >= 9)
+					if (count_R == 9)
 					{
 						throw (count_R);
 						break;
