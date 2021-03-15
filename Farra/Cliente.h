@@ -13,13 +13,13 @@ private:
     string nombre;
     string email;
     int id;
-    float cantLitrosTomados;
     string telefono;
 
 public:
     Cliente();
     Cliente(string, string, int, string);
     void mostrarCliente();
+    string getNombre();
 };
 
 #endif

@@ -24,7 +24,9 @@ int main()
             std::cout << "\n";
             break;
         case 3:
-            std::cout << "Lo siento no esta hecha \n";
+            std::cout << "\n";
+            laFarra.vender();
+            std::cout << "\n";
             break;
         case 4:
             laFarra.mostrarTodosCliente();

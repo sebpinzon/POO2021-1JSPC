@@ -17,12 +17,15 @@ private:
     string tipoProducto;
     int codigoProducto;
     int existencia;
-    float valorProducto;
+    float valorProducto,valorIVA;
 
 public:
     Producto();
-    Producto(string, string, int, int, float);
+    Producto(string, string, int, int, float,float);
     void mostrarProducto();
+    int getCodigoProducto();
+    float getValor();
+    float getIVA();
 };
 
 #endif

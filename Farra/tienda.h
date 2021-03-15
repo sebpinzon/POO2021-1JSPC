@@ -15,6 +15,9 @@ private:
     string nombreDueno;
     int capClient;
     int capProducto;
+    int cantidad_productos=0;
+    int cantidad_clientes=0;
+    int cantidad_ventas=0;
     list<Producto> listaProductos; //list<Clase> nombre_de_lista
     list<Cliente> listaCliente;
 
@@ -25,8 +28,11 @@ public:
     void setNombre();
     void setDueno();
     void mostrarTodosProducto();
+    Producto buscarProducto(int);
+    Cliente buscarCliente(string nombre);
     void mostrarTodosCliente();
     void agregarProducto();
+    void agregarCliente();
     void vender();
 };
 
