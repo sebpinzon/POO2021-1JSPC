@@ -69,3 +69,14 @@ void Persona::setId(int id)
 {
 	this->id = id;
 }
+
+void Persona::mostrarPersona()
+{
+	cout << "\n" << endl;
+	cout << "Nombre: " << getNombre() << endl;
+	cout << "Ubicacion: " << getUbicacion() << endl;
+	cout << "Email: " << getEmail() << endl;
+	cout << "Celular: " << getCelular() << endl;
+	cout << "Id: " << getId() << endl;
+	cout << "\n" << endl;
+}

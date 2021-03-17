@@ -4,6 +4,8 @@
 #include <iostream>
 
 using std::string;
+using std::cout;
+using std::endl;
 
 class Persona
 {
@@ -24,6 +26,7 @@ class Persona
 		void setCelular(string);
 		int getId();
 		void setId(int);
+		void mostrarPersona();
 };
 
 

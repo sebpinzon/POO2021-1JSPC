@@ -141,40 +141,24 @@ void Acta::calcularNotaFinal()
 	this->nota_final = nota_final;
 }
 
-void Acta::mostrarJurado(int numero_jurado)
+Persona Acta::getJurado1()
 {
-	int count=1;
-	for (list<Persona>::iterator jurado = listaJurados.begin() ; jurado != listaJurados.end() ; jurado++)
-	{
-		if (count == numero_jurado)
-		{
-			cout << "Identificacion: " << jurado->getId() << endl;
-			cout << "Nombre: " << jurado->getNombre() << endl;
-			cout << "Email: " << jurado->getEmail() << endl;
-			cout << "Celular: " << jurado->getCelular() << endl;
-			cout << "Ubicacion: " << jurado->getUbicacion() << endl;
-		}
-		count++;
-	}
+	return jurado1;
 }
 
-string Acta::mostrarNombreJurado(int numero_jurado)
+void Acta::setJurado1(Persona jurado1)
 {
-	int count=1;
-	for (list<Persona>::iterator jurado = listaJurados.begin() ; jurado != listaJurados.end() ; jurado++)
-	{
-		if (count == numero_jurado)
-		{
-			return jurado->getNombre();
-		}
-		count++;
-	}
+	this->jurado1 = jurado1;
 }
 
-void Acta::agregarJurado(Persona jurado)
+Persona Acta::getJurado2()
 {
-	listaJurados.push_back(jurado);
-	this->count_jurados = count_jurados++;
+	return jurado2;
+}
+
+void Acta::setJurado2(Persona jurado2)
+{
+	this->jurado2 = jurado2;
 }
 
 void Acta::mostrarCriterio(int id)
@@ -196,6 +180,16 @@ void Acta::agregarCriterio(Criterio criterio)
 {
 	listaCriterios.push_back(criterio);
 	this->count_criterios = count_criterios++;
+}
+
+list<Criterio> getListaCriterios()
+{
+	return listaCriterios;
+}
+
+void setListaCriterios(list<Criterio> listaCriterios)
+{
+	this->listaCriterios = listaCriterios;
 }
 
 void Acta::mostrarObservaciones()
@@ -223,11 +217,11 @@ void Acta::mostrarActa()
 	cout << "Codirector: " << codirector.getNombre() << endl;
 	cout << "Enfasis: " << enfasis << endl;
 	cout << "Modalidad: " << getModalidad() << endl;
-	cout << "Jurado 1: " << mostrarNombreJurado(1) << endl;
-	cout << "Jurado 2: " << mostrarNombreJurado(2) << endl;
+	cout << "Jurado 1: " << jurado1.getNombre() << endl;
+	cout << "Jurado 2: " << jurado2.getNombre() << endl;
 	cout << "\n" << endl;
 	cout << "Creiterios: " << endl;
-	for ( i=0 ; i == count_criterios ; i++ )
+	for ( int i=0 ; i == count_criterios ; i++ )
 	{
 		cout << numero_criterio++ << "." << endl;
 		mostrarCriterio(i);

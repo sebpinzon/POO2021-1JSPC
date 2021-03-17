@@ -19,12 +19,12 @@ class Acta
 	private:
 		int numero_acta,aprovacion,count_jurados=0,count_criterios=0;
 		string fecha,periodo,enfasis;
-		Persona estudiante,director,codirector;
-		bool modalidad,estado;
-		list<Persona> listaJurados;
+		Persona estudiante,director,codirector,jurado1,jurado2;
+		bool modalidad,estado=1;
 		string listaObservaciones[2];
 		list<Criterio> listaCriterios;
 		float nota_final;
+		Persona lista[30];
 	public:
 		Acta();
 
@@ -63,12 +63,16 @@ class Acta
 		float getNotaFinal();
 		void calcularNotaFinal();
 
-		void mostrarJurado(int);
-		string mostrarNombreJurado(int);
-		void agregarJurado(Persona);
+		Persona getJurado1();
+		void setJurado1(Persona);
+
+		Persona getJurado2();
+		void setJurado2(Persona);
 
 		void mostrarCriterio(int);
 		void agregarCriterio(Criterio);
+		list<Criterio> getListaCriterios();
+		void setListaCriterios(list<Criterio> listaCriterios);
 
 		void mostrarObservaciones();
 		void agregarObservacion(int);
