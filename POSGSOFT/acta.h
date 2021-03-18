@@ -21,10 +21,10 @@ class Acta
 		string fecha,periodo,enfasis;
 		Persona estudiante,director,codirector,jurado1,jurado2;
 		bool modalidad,estado=1;
-		string listaObservaciones[2];
+		string observacion;
+		string observacion_aprobacion;
 		list<Criterio> listaCriterios;
 		float nota_final;
-		Persona lista[30];
 	public:
 		Acta();
 
@@ -55,9 +55,11 @@ class Acta
 		void setCodirector(Persona);
 
 		string getModalidad();
+		bool getModalidadBin();
 		void setModalidad(bool);
 
 		string getEstado();
+		bool getEstadoBin();
 		void setEstado(bool);
 
 		float getNotaFinal();
@@ -69,17 +71,17 @@ class Acta
 		Persona getJurado2();
 		void setJurado2(Persona);
 
-		void mostrarCriterio(int);
-		void agregarCriterio(Criterio);
 		list<Criterio> getListaCriterios();
 		void setListaCriterios(list<Criterio> listaCriterios);
+		void mostrarCriterio(int);
 
-		void mostrarObservaciones();
-		void agregarObservacion(int);
+		string getObservacion();
+		void setObservacion(string);
+
+		string getObservacionAprobacion();
+		void setObservacionAprobacion(string);
 
 };
-
-
 
 
 #endif

@@ -84,16 +84,25 @@ void Acta::setCodirector(Persona codirector)
 
 string Acta::getModalidad()
 {
-	string aplicado = "Aplicado", investigado = "Investigado";
+	string aplicado = "Aplicado", investigado = "Investigado",nd = "No determinada";
 
 	if (modalidad == 1)
 	{
 		return aplicado;
 	}
+	else if (modalidad == 0)
+	{
+		return aplicado;
+	}
 	else
 	{
-		return investigado;
+		return nd;
 	}
+}
+
+bool Acta::getModalidadBin()
+{
+	return modalidad;
 }
 
 void Acta::setModalidad(bool modalidad)
@@ -115,6 +124,11 @@ string Acta::getEstado()
 	}
 }
 
+bool Acta::getEstadoBin()
+{
+	return estado;
+}
+
 void Acta::setEstado(bool estado)
 {
 	this->estado = estado;
@@ -127,11 +141,13 @@ float Acta::getNotaFinal()
 
 void Acta::calcularNotaFinal()
 {
+	DetalleCriterio detalle;
 	float calificacion1=0, calificacion2=0,promedio,nota_final;
 	for (list<Criterio>::iterator criterio = listaCriterios.begin() ; criterio != listaCriterios.end() ; criterio++)
 	{
-		calificacion1 = criterio->getCalificacionJurado1();
-		calificacion2 = criterio->getCalificacionJurado2();
+		detalle = criterio->getDetalle();
+		calificacion1 = detalle.getCalificacionJurado1();
+		calificacion2 = detalle.getCalificacionJurado2();
 
 		promedio = (calificacion1+calificacion2)/2;
 
@@ -161,48 +177,51 @@ void Acta::setJurado2(Persona jurado2)
 	this->jurado2 = jurado2;
 }
 
-void Acta::mostrarCriterio(int id)
-{
-	for (list<Criterio>::iterator criterio = listaCriterios.begin() ; criterio != listaCriterios.end() ; criterio++)
-	{
-		if (criterio->getId() == id)
-		{
-			cout << "Criterio: " << criterio->getNombre() << endl;
-			cout << "Calificacion Jurado 1: " << criterio->getCalificacionJurado1() << endl;
-			cout << "Calificacion Jurado 2: " << criterio->getCalificacionJurado2() << endl;
-			cout << "Ponderacion: " << criterio->getPonderacion()*100 << "%" << endl;
-			cout << "Observacino Jurado 1: " << criterio->getObservacionJurado1() << endl;
-			cout << "Observacino Jurado 2: " << criterio->getObservacionJurado2() << endl;
-		}
-	}
-}
-void Acta::agregarCriterio(Criterio criterio)
-{
-	listaCriterios.push_back(criterio);
-	this->count_criterios = count_criterios++;
-}
-
-list<Criterio> getListaCriterios()
+list<Criterio> Acta::getListaCriterios()
 {
 	return listaCriterios;
 }
 
-void setListaCriterios(list<Criterio> listaCriterios)
+void Acta::setListaCriterios(list<Criterio> listaCriterios)
 {
 	this->listaCriterios = listaCriterios;
 }
 
-void Acta::mostrarObservaciones()
+void Acta::mostrarCriterio(int id)
 {
-	cout << listaObservaciones[0] << endl;
-	cout << listaObservaciones[1] << endl;
+	DetalleCriterio detalle;
+	for (list<Criterio>::iterator criterio = listaCriterios.begin() ; criterio != listaCriterios.end() ; criterio++)
+	{
+		if (criterio->getId() == id)
+		{
+			detalle = criterio->getDetalle();
+			cout << "\n" << endl;
+			cout << "Criterio: " << criterio->getNombre() << endl;
+			cout << "Calificacion Jurado 1: " << detalle.getCalificacionJurado1() << endl;
+			cout << "Calificacion Jurado 2: " << detalle.getCalificacionJurado2() << endl;
+			cout << "Ponderacion: " << criterio->getPonderacion()*100 << "%" << endl;
+			cout << "Observacion: " << detalle.getObservacion() << endl;
+			
+		}
+	}
 }
-void Acta::agregarObservacion(int indice)
+
+string Acta::getObservacion()
 {
-	string observacion;
-	cout << "Escriba la observacion: " << endl;
-	getline(cin,observacion);
-	listaObservaciones[indice] = observacion;
+	return observacion;
+}
+void Acta::setObservacion(string observacion)
+{
+	this->observacion = observacion;
+}
+
+string Acta::getObservacionAprobacion()
+{
+	return observacion_aprobacion;
+}
+void Acta::setObservacionAprobacion(string observacion_aprobacion)
+{
+	this->observacion_aprobacion = observacion_aprobacion;
 }
 
 void Acta::mostrarActa()
