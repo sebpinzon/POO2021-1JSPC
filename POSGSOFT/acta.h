@@ -17,8 +17,8 @@ using std::getline;
 class Acta
 {
 	private:
-		int numero_acta,aprovacion,count_jurados=0,count_criterios=0;
-		string fecha,periodo,enfasis;
+		int numero_acta,aprobacion=2,count_jurados=0,count_criterios=0;
+		string fecha,periodo,enfasis,nombre;
 		Persona estudiante,director,codirector,jurado1,jurado2;
 		bool modalidad,estado=1;
 		string observacion;
@@ -41,9 +41,6 @@ class Acta
 
 		string getEnfasis();
 		void setEnfasis(string);
-		
-		int getAprovacion();
-		void setAprovacion(int);
 
 		Persona getEstudiante();
 		void setEstudiante(Persona);
@@ -80,6 +77,13 @@ class Acta
 
 		string getObservacionAprobacion();
 		void setObservacionAprobacion(string);
+
+		string getNombre();
+		void setNombre(string);
+
+		void calcularAprobacion();
+		string aprobacionFinal();
+		int getAprovacion();
 
 };
 

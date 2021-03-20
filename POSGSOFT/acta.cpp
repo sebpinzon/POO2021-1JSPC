@@ -41,16 +41,6 @@ void Acta::setEnfasis(string enfasis)
 {
 	this->enfasis = enfasis;
 }
-		
-int Acta::getAprovacion()
-{
-	return aprovacion;
-}
-
-void Acta::setAprovacion(int aprovacion)
-{
-	this->aprovacion = aprovacion;
-}
 
 Persona Acta::getEstudiante()
 {
@@ -92,7 +82,7 @@ string Acta::getModalidad()
 	}
 	else if (modalidad == 0)
 	{
-		return aplicado;
+		return investigado;
 	}
 	else
 	{
@@ -142,7 +132,7 @@ float Acta::getNotaFinal()
 void Acta::calcularNotaFinal()
 {
 	DetalleCriterio detalle;
-	float calificacion1=0, calificacion2=0,promedio,nota_final;
+	float calificacion1=0, calificacion2=0,promedio,final,nota_final=0;
 	for (list<Criterio>::iterator criterio = listaCriterios.begin() ; criterio != listaCriterios.end() ; criterio++)
 	{
 		detalle = criterio->getDetalle();
@@ -151,7 +141,9 @@ void Acta::calcularNotaFinal()
 
 		promedio = (calificacion1+calificacion2)/2;
 
-		nota_final = nota_final + promedio;
+		final = promedio * criterio->getPonderacion();
+
+		nota_final = nota_final + final;
 	}
 
 	this->nota_final = nota_final;
@@ -222,6 +214,51 @@ string Acta::getObservacionAprobacion()
 void Acta::setObservacionAprobacion(string observacion_aprobacion)
 {
 	this->observacion_aprobacion = observacion_aprobacion;
+}
+
+string Acta::getNombre()
+{
+	return nombre;
+}
+
+void Acta::setNombre(string nombre)
+{
+	this->nombre = nombre;
+}
+
+void Acta::calcularAprobacion()
+{
+	calcularNotaFinal();
+	if (nota_final > 3.5 )
+	{
+		aprobacion = 3;
+	}
+	else
+	{
+		aprobacion = 1;
+	}
+}
+
+string Acta::aprobacionFinal()
+{
+	string aprobado="Aprovado", pendiente = "Pendientes", rechazado = "Rechazado";
+	if (aprobacion == 1)
+	{
+		return aprobado;
+	}
+	else if(aprobacion == 2)
+	{
+		return pendiente;
+	}
+	else if(aprobacion == 3)
+	{
+		return rechazado;
+	}
+}
+
+int Acta::getAprovacion()
+{
+	return aprobacion;
 }
 
 void Acta::mostrarActa()

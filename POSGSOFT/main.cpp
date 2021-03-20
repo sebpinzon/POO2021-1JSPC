@@ -2,7 +2,11 @@
 #include <fstream>
 #include "acta.h"
 
+using std::ifstream;
+using std::ofstream;
 using std::getline;
+using std::ios;
+using std::to_string;
 
 int menu()
 {
@@ -10,7 +14,8 @@ int menu()
 	cout << "1. Modificar acta" << endl;
 	cout << "2. Crear acta" << endl;
 	cout << "3. Listar actas" << endl;
-	cout << "4. Salir" << endl;
+	cout << "4. Generar archivo de texto" << endl;
+	cout << "5. Salir" << endl;
 	cout << "Opcion: ";
 	cin >> opcion;
 	return opcion;
@@ -28,22 +33,26 @@ Persona modificarPersona(Persona persona)
 	string nombre,email,celular;
 	bool ubicacion;
 	int id,selector;
-	clean();
+	
 	while(stop)
 	{
+		clean();
+		cout << "Nombre: " << persona.getNombre() << endl;
+		cout << "Ubicacion: " << persona.getUbicacion() << endl;
+		cout << "Email: " << persona.getEmail() << endl;
+		cout << "Celular: " << persona.getCelular() << endl;
+		cout << "Id: " << persona.getId() << endl;
+		cout << "\n" << endl;
 		cout << "1. Modificar Nombre" << endl;
 		cout << "2. Modificar Ubicacion" << endl;
 		cout << "3. Modificar Email" << endl;
 		cout << "4. Modificar Celular" << endl;
 		cout << "5. Modificar Id" << endl;
-		cout << "6. Mostrar perfil" << endl;
-		cout << "7. Salir" << endl;
+		cout << "6. Salir" << endl;
 		cout << "Opcion: ";
 		cin >> selector;
-
-		cout << "\n" << endl;
 		try{
-			if ((selector >= 8) || (selector == 0))
+			if ((selector >= 7) || (selector == 0))
 			{
 				throw (selector);
 			}
@@ -103,12 +112,6 @@ Persona modificarPersona(Persona persona)
 				break;
 				case 6:
 				{
-					clean();
-					persona.mostrarPersona();
-				}
-				break;
-				case 7:
-				{
 					stop = false;
 				}
 				break;
@@ -129,46 +132,59 @@ list<Criterio> modificarCriterios(list<Criterio> listaCriterios)
 	DetalleCriterio detalle;
 	float calificacionJurado1,calificacionJurado2,ponderacion;
 	string observacion;
-	int id,opcion,selector,indice;
-	clean();
-	cout << "Criterios actuales(si no hay,seleccione 0):" <<endl;
-	cout << "\n" << endl;
-	list<Criterio>::iterator criterio = listaCriterios.begin();
-	for (criterio ; criterio != listaCriterios.end() ; criterio++)
-	{
-		cout << criterio->getId() << ". " << criterio->getNombre();		
-		cout << "\n" << endl;
-	}
-	cout << "Criterio: ";
-	cin >> opcion;
-
-	if (opcion == 0)
-	{
-		cout << "Agrege un criterio, se recomienda seleccionar la opcion 8." <<endl;
-	}
-
-	if (opcion != 0)
-	{
-		indice=1;
-
-		criterio = listaCriterios.begin();
-		while(criterio != listaCriterios.end())
-		{
-			if (indice == opcion)
-			{
-				break;
-			}
-			indice++;
-			criterio++;
-		}
-
-		detalle = criterio->getDetalle();
-	}
-
-	
+	int id,opcion,selector;
 
 	while(stop)
 	{
+
+		clean();
+		int indice=1;
+		cout << "Seleccione el criterio a modificar(si no hay,seleccione 0):" <<endl;
+		cout << "\n" << endl;
+		list<Criterio>::iterator criterio = listaCriterios.begin();
+		for (criterio ; criterio != listaCriterios.end() ; criterio++)
+		{
+			cout << indice++ << ". " << criterio->getNombre();		
+			cout << "\n" << endl;
+		}
+		try{
+			cout << "Criterio: ";
+			cin >> opcion;
+			if (opcion > indice)
+			{
+				throw(opcion);
+			}
+			
+		}
+		catch(int opcion)
+		{
+			cout << "Seleccione un criterio valido." <<endl;
+		}
+		
+
+		if (opcion == 0)
+		{
+			cout << "Agrege un criterio, se recomienda seleccionar la opcion 7." <<endl;
+		}
+
+		if (opcion != 0)
+		{
+			indice=1;
+
+			criterio = listaCriterios.begin();
+			while(criterio != listaCriterios.end())
+			{
+				if (indice == opcion)
+				{
+					break;
+				}
+				indice++;
+				criterio++;
+			}
+
+			detalle = criterio->getDetalle();
+		}
+
 		cout << "1. Modificar Nombre" << endl;
 		cout << "2. Modificar calificacion jurado 1" << endl;
 		cout << "3. Modificar calificacion jurado 2" << endl;
@@ -180,10 +196,8 @@ list<Criterio> modificarCriterios(list<Criterio> listaCriterios)
 		cout << "9. Salir" << endl;
 		cout << "Opcion: ";
 		cin >> selector;
-
-		cout << "\n" << endl;
 		try{
-			if ((selector >= 9) || (selector == 0))
+			if ((selector >= 10) || (selector == 0))
 			{
 				throw (selector);
 			}
@@ -204,7 +218,7 @@ list<Criterio> modificarCriterios(list<Criterio> listaCriterios)
 				{
 					clean();
 					cout << "Calificacion del jurado 1 actual: " << detalle.getCalificacionJurado1() << endl;
-					cout << "Calificacion del jurado 1 nueva: ";
+					cout << "Calificacion del jurado 1 nueva(valor entre 0.0 y 5.0): ";
 					cin >> calificacionJurado1;
 					detalle.setCalificacionJurado1(calificacionJurado1);
 				}
@@ -213,7 +227,7 @@ list<Criterio> modificarCriterios(list<Criterio> listaCriterios)
 				{
 					clean();
 					cout << "Calificacion del jurado 2 actual: " << detalle.getCalificacionJurado2() << endl;
-					cout << "Calificacion del jurado 2 nueva: ";
+					cout << "Calificacion del jurado 2 nueva(valor entre 0.0 y 5.0): ";
 					cin >> calificacionJurado2;
 					detalle.setCalificacionJurado2(calificacionJurado1);
 				}
@@ -232,7 +246,8 @@ list<Criterio> modificarCriterios(list<Criterio> listaCriterios)
 					clean();
 					cout << "Observacion actual: " << detalle.getObservacion() << endl;
 					cout << "Observacion nueva: ";
-					cin >> observacion;
+					getline(cin,observacion);
+					getline(cin,observacion);
 					detalle.setObservacion(observacion);
 				}
 				break;
@@ -252,11 +267,13 @@ list<Criterio> modificarCriterios(list<Criterio> listaCriterios)
 					cout << "Nuevo criterio agregado" << endl;
 				}
 				break;
+				/*
 				case 8:
 				{
-					stop = false;
+					
 				}
 				break;
+				*/
 				case 9:
 				{
 					stop = false;
@@ -268,8 +285,11 @@ list<Criterio> modificarCriterios(list<Criterio> listaCriterios)
 		{
 			cout << "Seleccione una opcion valida\n" << endl;
 		}
+
+		criterio->setDetalle(detalle);
 	}
-	criterio->setDetalle(detalle);
+	
+	
 	return listaCriterios;
 }
 
@@ -277,21 +297,18 @@ string modificarObservacionGeneral(string observacion_general)
 {
 	bool stop = true;
 	int general=1,opcion,selector,indice;
-	string observacion;
-	clean();
-	cout << "Observacion general actual: " << endl;
-	cout << observacion_general << endl;
-	cout << "\n" << endl;
+	string observacion=observacion_general;
 	
 	while(stop)
 	{
+		clean();
+		cout << "Observacion general actual: " << endl;
+		cout << observacion << endl;
+		cout << "\n" << endl;
 		cout << "1. Modificar observacion general" << endl;
-		cout << "2. Ver observacion general" << endl;
-		cout << "3. Salir" << endl;
+		cout << "2. Salir" << endl;
 		cout << "Opcion: ";
 		cin >> selector;
-
-		cout << "\n" << endl;
 		try{
 			if ((selector >= 4) || (selector == 0))
 			{
@@ -303,21 +320,12 @@ string modificarObservacionGeneral(string observacion_general)
 				case 1:
 				{
 					clean();
-					cout << "Observacion general actual: " << endl;
-					cout << observacion_general << endl;
 					cout << "Observacion general nueva: ";
 					getline(cin,observacion);
 					getline(cin,observacion);
 				}
 				break;
 				case 2:
-				{
-					clean();
-					cout << "Observacion general actual: " << endl;
-					cout << observacion << endl;
-				}
-				break;
-				case 3:
 				{
 					stop = false;
 				}
@@ -336,21 +344,19 @@ string modificarObservacionAprovacion(string observacion_aprobacion)
 {
 	bool stop = true;
 	int general=1,aprovacion=2,opcion,selector,indice;
-	string observaciones;
-	clean();
-	cout << "Observacion de aprovacion actual: " <<endl;
-	cout << observacion_aprobacion << endl;
-	cout << "\n" << endl;
+	string observaciones=observacion_aprobacion;
+	
 	
 	while(stop)
 	{
+		clean();
+		cout << "Observacion de aprovacion actual: " <<endl;
+		cout << observaciones << endl;
+		cout << "\n" << endl;
 		cout << "1. Modificar observacion de aprovacion" << endl;
-		cout << "2. Ver observacion de aprovacion" << endl;
-		cout << "3. Salir" << endl;
+		cout << "2. Salir" << endl;
 		cout << "Opcion: ";
 		cin >> selector;
-
-		cout << "\n" << endl;
 		try{
 			if ((selector >= 4) || (selector == 0))
 			{
@@ -371,13 +377,6 @@ string modificarObservacionAprovacion(string observacion_aprobacion)
 				break;
 				case 2:
 				{
-					clean();
-					cout << "Observacion de aprovacion actual: " <<endl;
-					cout << observacion_aprobacion << endl;
-				}
-				break;
-				case 3:
-				{
 					stop = false;
 				}
 				break;
@@ -395,11 +394,10 @@ int modificarNumeroActa(int numero_acta)
 {
 	bool stop = true;
 	int nuevo=numero_acta,selector;
-	clean();
 	
 	while(stop)
 	{
-		
+		clean();
 		cout << "Numero de acta actual: ";
 		cout << nuevo << endl;
 		cout << "\n" << endl;
@@ -407,8 +405,6 @@ int modificarNumeroActa(int numero_acta)
 		cout << "2. Salir" << endl;
 		cout << "Opcion: ";
 		cin >> selector;
-
-		cout << "\n" << endl;
 		try{
 			if ((selector >= 4) || (selector == 0))
 			{
@@ -420,8 +416,6 @@ int modificarNumeroActa(int numero_acta)
 				case 1:
 				{
 					clean();
-					cout << "Numero de acta actual: " << endl;
-					cout << nuevo << endl;
 					cout << "Numero de acta nuevo: ";
 					cin >> nuevo;
 				}
@@ -447,10 +441,10 @@ string modificarFechaActa(string fecha)
 	bool stop = true;
 	string nuevo=fecha;
 	int selector;
-	clean();
 	
 	while(stop)
 	{
+		clean();
 		cout << "Fecha acta actual: " ;
 		cout << nuevo << endl;
 		cout << "\n" << endl;
@@ -458,10 +452,8 @@ string modificarFechaActa(string fecha)
 		cout << "2. Salir" << endl;
 		cout << "Opcion: ";
 		cin >> selector;
-
-		cout << "\n" << endl;
 		try{
-			if ((selector >= 4) || (selector == 0))
+			if ((selector >= 3) || (selector == 0))
 			{
 				throw (selector);
 			}
@@ -474,7 +466,8 @@ string modificarFechaActa(string fecha)
 					cout << "Fecha de acta actual: " << endl;
 					cout << nuevo << endl;
 					cout << "Fecha de acta nuevo: ";
-					cin >> nuevo;
+					getline(cin,nuevo);
+					getline(cin,nuevo);
 				}
 				break;
 				case 2:
@@ -497,11 +490,10 @@ string modificarPeriodoActa(string periodo)
 	bool stop = true;
 	int selector;
 	string nuevo=periodo;
-	clean();
-	
+		
 	while(stop)
 	{
-		
+		clean();
 		cout << "Periodo acta actual: " <<endl;
 		cout << nuevo << endl;
 		cout << "\n" << endl;
@@ -509,8 +501,6 @@ string modificarPeriodoActa(string periodo)
 		cout << "2. Salir" << endl;
 		cout << "Opcion: ";
 		cin >> selector;
-
-		cout << "\n" << endl;
 		try{
 			if ((selector >= 3) || (selector == 0))
 			{
@@ -522,8 +512,11 @@ string modificarPeriodoActa(string periodo)
 				case 1:
 				{
 					clean();
+					cout << "Periodo acta actual: " <<endl;
+					cout << nuevo << endl;
 					cout << "Periodo de acta nuevo: ";
-					cin >> nuevo;
+					getline(cin,nuevo);
+					getline(cin,nuevo);
 				}
 				break;
 				case 2:
@@ -557,8 +550,6 @@ string modificarEnfasisActa(string enfasis)
 		cout << "2. Salir" << endl;
 		cout << "Opcion: ";
 		cin >> selector;
-
-		cout << "\n" << endl;
 		try{
 			if ((selector >= 3) || (selector == 0))
 			{
@@ -571,7 +562,8 @@ string modificarEnfasisActa(string enfasis)
 				{
 					clean();
 					cout << "Enfasis de acta nuevo: ";
-					cin >> nuevo;
+					getline(cin,nuevo);
+					getline(cin,nuevo);
 				}
 				break;
 				case 2:
@@ -605,7 +597,7 @@ bool modificarModalidadActa(bool modalidad)
 		}
 		else if (nuevo == 0)
 		{
-			mod = aplicado;
+			mod = investigado;
 		}
 		else
 		{
@@ -620,8 +612,6 @@ bool modificarModalidadActa(bool modalidad)
 		cout << "2. Salir" << endl;
 		cout << "Opcion: ";
 		cin >> selector;
-
-		cout << "\n" << endl;
 		try{
 			if ((selector >= 3) || (selector == 0))
 			{
@@ -633,7 +623,7 @@ bool modificarModalidadActa(bool modalidad)
 				case 1:
 				{
 					clean();
-					cout << "1.Aplicada - 0.Investigado";
+					cout << "1.Aplicada - 0.Investigado" << endl;
 					cout << "Modalidad nueva: ";
 					cin >> nuevo;
 				}
@@ -684,8 +674,6 @@ bool modificarEstadoActa(bool estado)
 		cout << "2. Salir" << endl;
 		cout << "Opcion: ";
 		cin >> selector;
-
-		cout << "\n" << endl;
 		try{
 			if ((selector >= 3) || (selector == 0))
 			{
@@ -697,9 +685,9 @@ bool modificarEstadoActa(bool estado)
 				case 1:
 				{
 					clean();
-					cout << "Recuerde que si el acta esta Activa puede modificarse,";
-					cout << "una vez esta se cierre solo se podra visulizar.";
-					cout << "1.Activa - 0.Cerrada";
+					cout << "Recuerde que si el acta esta Activa puede modificarse," << endl;
+					cout << "una vez esta se cierre solo se podra visulizar." << endl;
+					cout << "1.Activa - 0.Cerrada" << endl;
 					cout << "Modalidad nueva: ";
 					cin >> nuevo;
 				}
@@ -719,19 +707,69 @@ bool modificarEstadoActa(bool estado)
 	return nuevo;
 }
 
+string modificarNombreActa(string nombre)
+{
+	bool stop = true;
+	int selector;
+	string nuevo=nombre;
+	
+	while(stop)
+	{
+		clean();
+		cout << "Nombre del proyecto acta actual: " <<endl;
+		cout << nuevo << endl;
+		cout << "\n" << endl;
+		cout << "1. Modificar Nombre del proyecto de Acta" << endl;
+		cout << "2. Salir" << endl;
+		cout << "Opcion: ";
+		cin >> selector;
+		try{
+			if ((selector >= 3) || (selector == 0))
+			{
+				throw (selector);
+			}
+			
+			switch (selector)
+			{
+				case 1:
+				{
+					clean();
+					cout << "Nombre del proyecto de acta nuevo: ";
+					getline(cin,nuevo);
+					getline(cin,nuevo);
+				}
+				break;
+				case 2:
+				{
+					stop = false;
+				}
+				break;
+			}
+		}
+		catch(int selector)
+		{
+			cout << "Seleccione una opcion valida\n" << endl;
+		}
+	}
+	return nuevo;
+}
+
 list<Acta> modificarActa(list<Acta> actas)
 {
-	int opcion,indice=1,selector=0;
-
+	int opcion,indice=1,selector;
+	clean();
 	bool stop = true,modalidad,estado;
 	Acta acta_modificar;
 	int numero_acta,aprovacion,count_jurados=0,count_criterios=0;
 	float nota_final;
-	string fecha,periodo,enfasis;
+	string fecha,periodo,enfasis,nombre;
 	Persona estudiante,codirector,director,jurado1,jurado2;
 	string observacion_general,observacion_aprobacion;
 	list<Criterio> listaCriterios;
 	list<string> listaObservaciones;
+	list<Acta> eliminacion;
+
+	cout << "Seleccione el indice del acta que se desea modificar" << endl;
 
 	list<Acta>::iterator acta = actas.begin();
 	for (acta ; acta != actas.end() ; acta++)
@@ -739,7 +777,7 @@ list<Acta> modificarActa(list<Acta> actas)
 		if ( acta->getEstadoBin() == 1)
 		{
 			Persona estudiante = acta->getEstudiante();
-			cout << indice++ << "." << "Numero de acta: " << acta->getNumeroActa() << "     " << "Nombre de autor: " << estudiante.getNombre() << "     " << "Estado: " << acta->getEstado() << endl;
+			cout << indice++ << ". " << "Numero de acta: " << acta->getNumeroActa() << "     " << "Nombre de autor: " << estudiante.getNombre() << "     " << "Estado: " << acta->getEstado() << endl;
 		}
 	}
 	cout << "Acta: ";
@@ -768,6 +806,7 @@ list<Acta> modificarActa(list<Acta> actas)
 
 	while(stop)
 	{
+		clean();
 		cout << "1.  Modificar Estudiente" << endl;
 		cout << "2.  Modificar Director" << endl;
 		cout << "3.  Modificar Codirector" << endl;
@@ -781,15 +820,15 @@ list<Acta> modificarActa(list<Acta> actas)
 		cout << "11. Modificar Periodo del acta" << endl;
 		cout << "12. Modificar Enfasis del acta" << endl;
 		cout << "13. Modificar Modalidad del acta" << endl;
-		cout << "14. Calcular nota final" << endl;
+		cout << "14. Calcular nota final" << " Actual: " << acta->getNotaFinal()  << endl;
 		cout << "15. Modificar Estado del acta" << endl;
-		cout << "16. Salir" << endl;
+		cout << "16. Modificar Nombre del proyecto en el acta" << endl;
+		cout << "17. Eliminar acta" << endl;
+		cout << "18. Salir" << endl;
 		cout << "Opcion: ";
 		cin >> selector;
-
-		cout << "\n" << endl;
 		try{
-			if ((selector >= 10) || (selector == 0))
+			if ((selector >= 18) || (selector == 0))
 			{
 				throw (selector);
 			}
@@ -891,6 +930,25 @@ list<Acta> modificarActa(list<Acta> actas)
 				break;
 				case 16:
 				{
+					nombre = modificarNombreActa(acta->getNombre());
+					acta->setNombre(nombre);
+					
+				}
+				break;
+				case 17:
+				{
+					list<Acta>::iterator elminacion = actas.begin();
+					for (elminacion ; elminacion != elminacion.end() ; elminacion++)
+					{
+						if ( elminacion != acta)
+						{
+							eliminacion.push_back(restore);
+						}
+					}
+				}
+				break;
+				case 18:
+				{
 					stop = false;
 				}
 				break;
@@ -912,9 +970,298 @@ Acta crearActa()
 	return nueva;
 }
 
-void listarActas()
+void listarActas(list<Acta> actas)
 {
+	int opcion,indice=1,selector;
+	clean();
+	bool stop = true,modalidad,estado;
+	Acta acta_modificar;
+	int numero_acta,aprovacion,count_jurados=0,count_criterios=0;
+	float nota_final;
+	string fecha,periodo,enfasis,nombre;
+	Persona estudiante,codirector,director,jurado1,jurado2;
+	string observacion_general,observacion_aprobacion;
+	list<Criterio> listaCriterios;
+	list<string> listaObservaciones;
 
+
+	while(stop)
+	{
+		clean();
+		indice=1;
+		list<Acta>::iterator acta = actas.begin();
+		cout << "Seleccione el indice del criterio para listar" << endl;
+		cout << "1.  Listar todas las actas" << endl;
+		cout << "2.  Listar actas abiertas" << endl;
+		cout << "3.  Listar actas cerradas" << endl;
+		cout << "4.  Listar por modalidad Aplicada" << endl;
+		cout << "5.  Listar por modalidad Investigacion" << endl;
+		cout << "6.  Listar por Director" << endl;
+		cout << "7.  Listar por Jurado" << endl;
+		cout << "8.  Listar actas pendientes" << endl;
+		cout << "9.  Listar actas rechazadas" << endl;
+		cout << "10. Listar jurados internos" << endl;
+		cout << "11. Listar jurados externos" << endl;
+		cout << "12. Salir" << endl;
+		cout << "Opcion: ";
+		cin >> selector;
+		try{
+			if ((selector >= 13) || (selector == 0))
+			{
+				throw (selector);
+			}
+			
+			switch (selector)
+			{
+				case 1:
+				{
+					for (acta ; acta != actas.end() ; acta++)
+					{
+						Persona estudiante = acta->getEstudiante();
+						cout << indice++ << ". ";
+						cout << "Numero de acta: " << acta->getNumeroActa();
+						cout << "Fecha: " << acta->getFecha() << "   ";
+						cout << "Nombre de autor: " << estudiante.getNombre() << "   ";
+						cout << "Estado: " << acta->getEstado() << "   ";
+						cout << "Nota final: " << acta->getNotaFinal() << endl;
+					}
+				}
+				break;
+				case 2:
+				{
+					for (acta ; acta != actas.end() ; acta++)
+					{
+						if ( acta->getEstadoBin() == 1)
+						{
+							Persona estudiante = acta->getEstudiante();
+							cout << indice++ << ". ";
+							cout << "Numero de acta: " << acta->getNumeroActa();
+							cout << "Fecha: " << acta->getFecha() << "     ";
+							cout << "Nombre de autor: " << estudiante.getNombre() << "     ";
+							cout << "Estado: " << acta->getEstado() << "     ";
+							cout << "Nota final: " << acta->getNotaFinal() << endl;
+						}
+					}
+				}
+				break;
+				case 3:
+				{
+					for (acta ; acta != actas.end() ; acta++)
+					{
+						if ( acta->getEstadoBin() == 0)
+						{
+							Persona estudiante = acta->getEstudiante();
+							cout << indice++ << ". ";
+							cout << "Numero de acta: " << acta->getNumeroActa();
+							cout << "Fecha: " << acta->getFecha() << "     ";
+							cout << "Nombre de autor: " << estudiante.getNombre() << "     ";
+							cout << "Estado: " << acta->getEstado() << "     ";
+							cout << "Nota final: " << acta->getNotaFinal() << endl;
+						}
+					}
+				}
+				break;
+				case 4:
+				{
+					for (acta ; acta != actas.end() ; acta++)
+					{
+						if ( acta->getModalidadBin() == 1)
+						{
+							Persona estudiante = acta->getEstudiante();
+							cout << indice++ << ". ";
+							cout << "Numero de acta: " << acta->getNumeroActa();
+							cout << "Fecha: " << acta->getFecha() << "     ";
+							cout << "Nombre de autor: " << estudiante.getNombre() << "     ";
+							cout << "Estado: " << acta->getEstado() << "     ";
+							cout << "Nota final: " << acta->getNotaFinal() << endl;
+						}
+					}
+				}
+				break;
+				case 5:
+				{
+					for (acta ; acta != actas.end() ; acta++)
+					{
+						if ( acta->getModalidadBin() == 0)
+						{
+							Persona estudiante = acta->getEstudiante();
+							cout << indice++ << ". ";
+							cout << "Numero de acta: " << acta->getNumeroActa();
+							cout << "Fecha: " << acta->getFecha() << "     ";
+							cout << "Nombre de autor: " << estudiante.getNombre() << "     ";
+							cout << "Estado: " << acta->getEstado() << "     ";
+							cout << "Nota final: " << acta->getNotaFinal() << endl;
+						}
+					}
+				}
+				break;
+				case 6:
+				{
+					listaCriterios = modificarCriterios(listaCriterios);
+					acta->setListaCriterios(listaCriterios);
+
+				}
+				break;
+				case 7:
+				{
+					observacion_general = modificarObservacionGeneral(acta->getObservacion());
+					acta->setObservacion(observacion_general);
+				}
+				break;
+				case 8:
+				{
+					for (acta ; acta != actas.end() ; acta++)
+					{
+						if ( acta->getAprovacion() == 2)
+						{
+							Persona estudiante = acta->getEstudiante();
+							cout << indice++ << ". ";
+							cout << "Numero de acta: " << acta->getNumeroActa();
+							cout << "Fecha: " << acta->getFecha() << "     ";
+							cout << "Nombre de autor: " << estudiante.getNombre() << "     ";
+							cout << "Estado: " << acta->getEstado() << "     ";
+							cout << "Nota final: " << acta->getNotaFinal() << endl;
+						}
+					}
+				}
+				break;
+				case 9:
+				{
+					for (acta ; acta != actas.end() ; acta++)
+					{
+						if ( acta->getAprovacion() == 1)
+						{
+							Persona estudiante = acta->getEstudiante();
+							cout << indice++ << ". ";
+							cout << "Numero de acta: " << acta->getNumeroActa();
+							cout << "Fecha: " << acta->getFecha() << "     ";
+							cout << "Nombre de autor: " << estudiante.getNombre() << "     ";
+							cout << "Estado: " << acta->getEstado() << "     ";
+							cout << "Nota final: " << acta->getNotaFinal() << endl;
+						}
+					}
+				}
+				break;
+				case 10:
+				{
+					fecha = modificarFechaActa(acta->getFecha());
+					acta->setFecha(fecha);
+				}
+				break;
+				case 11:
+				{
+					periodo = modificarPeriodoActa(acta->getPeriodo());
+					acta->setPeriodo(periodo);
+				}
+				break;
+				case 12:
+				{
+					stop = false;
+				}
+				break;
+			}
+		}
+		catch(int selector)
+		{
+			cout << "Seleccione una opcion valida\n" << endl;
+		}
+	}
+
+}
+
+void archivoTexto(list<Acta>::iterator acta) 
+{
+	Persona estudiante,codirector,director,jurado1,jurado2;
+	int opcion,indice=1,selector;
+	string numero_acta = to_string(acta->getNumeroActa());
+	estudiante = acta->getEstudiante();
+	codirector = acta->getCodirector();
+	director = acta->getDirector();
+	jurado1 = acta->getJurado1();
+	jurado2 = acta->getJurado2();
+	list<Criterio> criterios = acta->getListaCriterios();
+	DetalleCriterio detalle;
+	int numero_criterio=1;
+
+    ofstream fs("Acta"+numero_acta+".txt",ios::app);
+    
+    fs << "Facultad de Ingenieria"<< endl;
+    fs << "Maestria en Ingenieria\n"<< endl;
+    fs << "Numero de Acta: " << acta->getNumeroActa() << "		"<< "Fecha: " << acta->getFecha() <<endl;
+	fs << "\n"<< endl;
+    fs << "Nombre del proyecto: \n"<< acta->getNombre()<< endl;
+    fs << "Autor: " << estudiante.getNombre()   << "		" << "ID: " << estudiante.getId() << endl;
+	fs << "Periodo: " << acta->getPeriodo() << endl;
+	fs << "Director: " << director.getNombre() << endl;
+	fs << "Codirector: " << codirector.getNombre() << endl;
+	fs << "Enfasis: " << acta->getEnfasis() << endl;
+	fs << "Modalidad: " << acta->getModalidad() << endl;
+	fs << "Jurado 1: " << jurado1.getNombre() << endl;
+	fs << "Jurado 2: " << jurado2.getNombre() << endl;
+	fs << "\n" << endl;
+	fs << "Criterios: " << endl;
+
+	list<Criterio>::iterator criterio = criterios.begin();
+	for (criterio ; criterio != criterios.end() ; criterio++)
+	{
+		if ( acta->getEstadoBin() == 0)
+		{
+			detalle = criterio->getDetalle();
+			fs << numero_criterio++ << "." << endl;
+			fs << "Criterio: " << criterio->getNombre() << endl;
+			fs << "Calificacion Jurado 1: " << detalle.getCalificacionJurado1() << endl;
+			fs << "Calificacion Jurado 2: " << detalle.getCalificacionJurado2() << endl;
+			fs << "Ponderacion: " << criterio->getPonderacion()*100 << "%" << endl;
+			fs << "Observacion: " << detalle.getObservacion() << endl;
+			
+		}
+	}
+	fs << "\n" << endl;
+	fs << "Como reultado de estas calificaciones parciales y sus ponderaciones, la calificacional es:" << endl;
+	acta->calcularNotaFinal();
+	fs << "Nota Final: " << acta->getNotaFinal() << endl;
+	fs << "\n" << endl;
+	fs << "Obervaciones: " << endl;
+	fs << acta->getObservacion() << endl;
+	fs << "\n" << endl;
+	fs << "Obervaciones para aprovacion: " << endl;
+	fs << acta->getObservacionAprobacion() << endl;
+	fs << "\n" << endl;
+	fs << "Aprovacion: " << endl;
+	fs << acta->aprobacionFinal() << endl;
+
+    fs.close();
+}
+
+void crearArchivoTexto(list<Acta> actas)
+{
+	int indice=1,opcion;
+	list<Acta>::iterator acta = actas.begin();
+	for (acta ; acta != actas.end() ; acta++)
+	{
+		if ( acta->getEstadoBin() == 0)
+		{
+			Persona estudiante = acta->getEstudiante();
+			cout << indice++ << ". " << "Numero de acta: " << acta->getNumeroActa() << "     " << "Nombre de autor: " << estudiante.getNombre() << "     " << "Estado: " << acta->getEstado() << endl;
+		}
+	}
+	cout << "Acta: ";
+	cin >> opcion;
+
+	indice=1;
+
+	acta = actas.begin();
+	while(acta != actas.end())
+	{
+		if (indice == opcion)
+		{
+			break;
+		}
+		indice++;
+		acta++;
+	}
+
+	archivoTexto(acta);
 }
 
 int main()
@@ -922,18 +1269,26 @@ int main()
 	int opcion,selector_acta;
 	bool stop=true;
 	Acta restore;
+	int cout_restore=0;
 	list<Acta> actas;
+	int s = sizeof(Acta);
+	cout << s;
 
-	ifstream carga("db.dat",ios::binary);
-	if(carga.is_open())
+	// CARGANDO DATOS DEL ARCHIVO AL PROGRAMA
+	ifstream file("db.txt",ios::out | ios::in | ios::binary);
+	if(file.is_open())
     {
-    	while(carga)
+
+    	while(file)
     	{
-    		carga.read((Acta*)&restore, sizeof(Acta));
+    		file.seekg(cout_restore*sizeof(Acta));
+    		file.read((char*)&restore, sizeof(Acta));
+    		actas.push_back(restore);
+    		cout_restore++;
     	}
     }
-    carga.close();
-
+    file.close();
+	
 
 
 	clean();
@@ -942,7 +1297,7 @@ int main()
 		opcion = menu();
 		cout << "\n" << endl;
 		try{
-			if ((opcion >= 5) || (opcion == 0))
+			if ((opcion >= 6) || (opcion == 0))
 			{
 				throw (opcion);
 			}
@@ -967,7 +1322,12 @@ int main()
 			break;
 			case 4:
 			{
-				
+				crearArchivoTexto(actas);
+			}
+			break;
+			case 5:
+			{
+				stop = false;
 			}
 			break;
 			}
@@ -978,7 +1338,22 @@ int main()
 		}
 		
 	}
+
+	// CARGANDO DATOS DEL ARCHIVO AL PROGRAMA
+	cout_restore=0;
+	list<Acta>::iterator acta = actas.begin();
+	ofstream filee("db.txt",ios::out | ios::in | ios::binary);
+	if(filee.is_open())
+	{
+		for(acta; acta != actas.end(); acta++)
+		{
+			//filee.seekp(cout_restore*sizeof(Acta));
+    		filee.write((char*)&acta, sizeof(Acta));
+    		cout_restore++;
+		}
+	}
 	
+    filee.close();
 	
 	return 0;
 }
