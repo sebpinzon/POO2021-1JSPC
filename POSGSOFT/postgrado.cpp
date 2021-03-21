@@ -11,6 +11,7 @@ void Postgrado::clean()
 
 void Postgrado::archivoTexto(list<Acta>::iterator acta) 
 {
+	clean();
 	Persona estudiante,codirector,director,jurado1,jurado2;
 	int opcion,indice=1,selector;
 	string numero_acta = to_string(acta->getNumeroActa());
@@ -29,7 +30,7 @@ void Postgrado::archivoTexto(list<Acta>::iterator acta)
     fs << "Maestria en Ingenieria\n"<< endl;
     fs << "Numero de Acta: " << acta->getNumeroActa() << "		"<< "Fecha: " << acta->getFecha() <<endl;
 	fs << "\n"<< endl;
-    fs << "Nombre del proyecto: \n"<< acta->getNombre()<< endl;
+    fs << "Nombre del proyecto: "<< acta->getNombre()<< "\n" << endl;
     fs << "Autor: " << estudiante.getNombre()   << "		" << "ID: " << estudiante.getId() << endl;
 	fs << "Periodo: " << acta->getPeriodo() << endl;
 	fs << "Director: " << director.getNombre() << endl;
@@ -67,26 +68,45 @@ void Postgrado::archivoTexto(list<Acta>::iterator acta)
 	fs << "Obervaciones para aprovacion: " << endl;
 	fs << acta->getObservacionAprobacion() << endl;
 	fs << "\n" << endl;
-	fs << "Aprovacion: " << endl;
+	fs << "Aprovacion: ";
 	fs << acta->aprobacionFinal() << endl;
 
     fs.close();
 }
 
-void Postgrado::crearArchivoTexto()
+int Postgrado::crearArchivoTexto()
 {
-	int indice=1,opcion;
+	int indice=1,opcion=0;
 	list<Acta>::iterator acta = listaActas.begin();
-	for (acta ; acta != listaActas.end() ; acta++)
-	{
-		if ( acta->getEstadoBin() == 0)
+	try{
+		clean();
+		cout << "Si ninguna acta esta cerrada, selecciona 0 para volver al menu principal." << endl;
+		for (acta ; acta != listaActas.end() ; acta++)
 		{
-			Persona estudiante = acta->getEstudiante();
-			cout << indice++ << ". " << "Numero de acta: " << acta->getNumeroActa() << "     " << "Nombre de autor: " << estudiante.getNombre() << "     " << "Estado: " << acta->getEstado() << endl;
+			if ( acta->getEstadoBin() == 0)
+			{
+				Persona estudiante = acta->getEstudiante();
+				cout << indice++ << ". " << "Numero de acta: " << acta->getNumeroActa() << "     " << "Nombre de autor: " << estudiante.getNombre() << "     " << "Estado: " << acta->getEstado() << endl;
+			}
+		}
+		cout << "Acta: ";
+		cin >> opcion;
+	
+		
+		if ( opcion > indice )
+		{
+			throw(opcion);
 		}
 	}
-	cout << "Acta: ";
-	cin >> opcion;
+	catch(int opcion)
+	{
+		cout << "Seleccione una acta valida..." << endl;
+	}
+
+	if (opcion == 0)
+	{
+		return 0;
+	}	
 
 	indice=1;
 
@@ -103,7 +123,6 @@ void Postgrado::crearArchivoTexto()
 
 	archivoTexto(acta);
 }
-
 
 list<Acta> Postgrado::getlistaActas()
 {
@@ -170,7 +189,6 @@ Persona Postgrado::modificarPersona(Persona persona)
 				case 1:
 				{
 					clean();
-					cout << "\n" << endl;
 					cout << "Nombre actual: " << persona.getNombre() << endl;
 					cout << "Nombre nuevo: ";
 					getline(cin,nombre);
@@ -181,7 +199,6 @@ Persona Postgrado::modificarPersona(Persona persona)
 				case 2:
 				{
 					clean();
-					cout << "\n" << endl;
 					cout << "Ubicacion actual: " << persona.getUbicacion() << endl;
 					cout << "Ubicacion nuevo(1.Extreno 0.Interno): ";
 					cin >> ubicacion;
@@ -191,7 +208,6 @@ Persona Postgrado::modificarPersona(Persona persona)
 				case 3:
 				{
 					clean();
-					cout << "\n" << endl;
 					cout << "Email actual: " << persona.getEmail() << endl;
 					cout << "Email nuevo: ";
 					cin >> email;
@@ -201,17 +217,15 @@ Persona Postgrado::modificarPersona(Persona persona)
 				case 4:
 				{
 					clean();
-					cout << "\n" << endl;
 					cout << "Celular actual: " << persona.getCelular() << endl;
 					cout << "Celular nuevo: ";
 					cin >> celular;
-					persona.setCelular(email);
+					persona.setCelular(celular);
 				}
 				break;
 				case 5:
 				{
 					clean();
-					cout << "\n" << endl;
 					cout << "Id actual: " << persona.getId() << endl;
 					cout << "Id nuevo: ";
 					cin >> id;
@@ -801,6 +815,10 @@ bool Postgrado::modificarEstadoActa(bool estado)
 				}
 				break;
 			}
+			if (nuevo == 0)
+			{
+				stop == false;
+			}
 		}
 		catch(int selector)
 		{
@@ -819,10 +837,10 @@ string Postgrado::modificarNombreActa(string nombre)
 	while(stop)
 	{
 		clean();
-		cout << "Nombre del proyecto acta actual: " <<endl;
+		cout << "Nombre del proyecto actual: " <<endl;
 		cout << nuevo << endl;
 		cout << "\n" << endl;
-		cout << "1. Modificar Nombre del proyecto de Acta" << endl;
+		cout << "1. Modificar Nombre del proyecto" << endl;
 		cout << "2. Salir" << endl;
 		cout << "Opcion: ";
 		cin >> selector;
@@ -837,7 +855,7 @@ string Postgrado::modificarNombreActa(string nombre)
 				case 1:
 				{
 					clean();
-					cout << "Nombre del proyecto de acta nuevo: ";
+					cout << "Nombre del proyecto nuevo: ";
 					getline(cin,nuevo);
 					getline(cin,nuevo);
 				}
@@ -932,11 +950,12 @@ int Postgrado::modificarActa()
 		cout << "15. Modificar Estado del acta" << endl;
 		cout << "16. Modificar Nombre del proyecto en el acta" << endl;
 		cout << "17. Eliminar acta" << endl;
-		cout << "18. Salir" << endl;
+		cout << "18. Actualizar aprobacion" << " Actual: " << acta->aprobacionFinal()  << endl;
+		cout << "19. Salir" << endl;
 		cout << "Opcion: ";
 		cin >> selector;
 		try{
-			if ((selector >= 19) || (selector == 0))
+			if ((selector >= 20) || (selector == 0))
 			{
 				throw (selector);
 			}
@@ -1051,6 +1070,12 @@ int Postgrado::modificarActa()
 				break;
 				case 18:
 				{
+					acta->calcularAprobacion();
+
+				}
+				break;
+				case 19:
+				{
 					stop = false;
 				}
 				break;
@@ -1084,13 +1109,13 @@ void Postgrado::listarporDirector()
 		clean();
 		cout << "Diferentes directores en base de datos" << endl;
 		cout << "Seleccione el director de las actas que desea ver:" << endl;
-		list<Persona>::iterator director_it = listaDirectores.begin();
+		list<string>::iterator director_it = listaDirectores.begin();
 		for (director_it ; director_it != listaDirectores.end() ; director_it++)
 		{
-			cout << indice << ". " << director_it->getNombre() << endl;
+			cout << indice << ". " << *director_it << endl;
 			indice++;
 		}
-		cout << "Opcion:" << endl;
+		cout << "Opcion:";
 		cin >> opcion;
 		cout << "\n" << endl;
 
@@ -1110,7 +1135,7 @@ void Postgrado::listarporDirector()
 		for (acta ; acta != listaActas.end() ; acta++)
 		{
 			Persona director = acta->getDirector();
-			if (director.getNombre() == director_it->getNombre())
+			if (director.getNombre() == *director_it)
 			{
 				Persona estudiante = acta->getEstudiante();
 				cout << indice++ << ". ";
@@ -1125,6 +1150,7 @@ void Postgrado::listarporDirector()
 		cout << "\n"<< endl;
 		cout << "1. Buscar acta con otro director"<< endl;
 		cout << "2. Salir"<< endl;
+		cout << "Opcion:";
 		cin >> selector;
 
 		try{
@@ -1163,13 +1189,13 @@ void Postgrado::listarporJurado()
 		clean();
 		cout << "Diferentes jurados en base de datos" << endl;
 		cout << "Seleccione el jurado de las actas que desea ver:" << endl;
-		list<Persona>::iterator jurado_it = listaJurados.begin();
+		list<string>::iterator jurado_it = listaJurados.begin();
 		for (jurado_it ; jurado_it != listaJurados.end() ; jurado_it++)
 		{
-			cout << indice << ". " << jurado_it->getNombre() << endl;
+			cout << indice << ". " << *jurado_it << endl;
 			indice++;
 		}
-		cout << "Opcion:" << endl;
+		cout << "Opcion:";
 		cin >> opcion;
 		cout << "\n" << endl;
 
@@ -1190,7 +1216,7 @@ void Postgrado::listarporJurado()
 		{
 			Persona jurado1 = acta->getJurado1();
 			Persona jurado2 = acta->getJurado2();
-			if ((jurado1.getNombre() == jurado_it->getNombre()) || (jurado2.getNombre() == jurado_it->getNombre()))
+			if ((jurado1.getNombre() == *jurado_it) || (jurado2.getNombre() == *jurado_it))
 			{
 				Persona estudiante = acta->getEstudiante();
 				cout << indice++ << ". ";
@@ -1205,6 +1231,7 @@ void Postgrado::listarporJurado()
 		cout << "\n"<< endl;
 		cout << "1. Buscar acta con otro jurado"<< endl;
 		cout << "2. Salir"<< endl;
+		cout << "Opcion:";
 		cin >> selector;
 
 		try{
@@ -1218,10 +1245,12 @@ void Postgrado::listarporJurado()
 				{
 					stop = true;
 				}
+				break;
 				case 2:
 				{
 					stop = false;
 				}
+				break;
 			}
 		}
 		catch(int selector){
@@ -1234,14 +1263,13 @@ void Postgrado::listarActas()
 {
 	int indice=1,selector;
 	bool stop = true;
-	string pause,nombre_director,nombre_jurado;
+	string pause,nombre_director,nombre_jurado1,nombre_jurado2;
 	Persona estudiante,director,jurado1,jurado2;
+	list<string> vacio;
 
-	list<Persona> listaDirectores_repetidos;
-	list<Persona> listaJurados_repetidos;
+	setlistaDirectores(vacio);
+	setlistaJurados(vacio);
 
-	setlistaJurados(listaDirectores_repetidos);
-	setlistaDirectores(listaJurados_repetidos);
 
 	list<Acta>::iterator acta = listaActas.begin();
 	for (acta ; acta != listaActas.end() ; acta++)
@@ -1251,100 +1279,29 @@ void Postgrado::listarActas()
 		listaDirectores.push_back(nombre_director);
 
 		jurado1 = acta->getJurado1();
-		listaJurados_repetidos.push_back(jurado1);
-		listaJurados.push_back(jurado1);
+		nombre_jurado1 = jurado1.getNombre();
+		listaJurados.push_back(nombre_jurado1);
 
 		jurado2 = acta->getJurado2();
-		listaJurados_repetidos.push_back(jurado2);
-		listaJurados.push_back(jurado2);
+		nombre_jurado2 = jurado2.getNombre();
+		listaJurados.push_back(nombre_jurado2);
 		++numero_actas;
 	}
 
 
-	cout << "1" << endl;
+	listaDirectores.sort();
+	listaDirectores.unique();
 
-
-
-
-	list<Persona>::iterator director_original = listaDirectores_repetidos.begin();
-	list<Persona>::iterator director_copia;
-	for (director_original ; director_original != listaDirectores_repetidos.end() ; director_original++)
-	{
-		this->numero_directores = 0;
-		director_copia = listaDirectores.begin();
-		for (director_copia ; director_copia != listaDirectores.end() ; director_copia++)
-		{
-			if (director_copia->getNombre() == director_original->getNombre())
-			{
-				if (numero_directores >= 1)
-				{
-					listaDirectores.erase(director_copia);	
-				}
-				numero_directores++;
-			}
-		}
-	}
 	this->numero_directores = listaDirectores.size();
 
+	listaJurados.sort();
+	listaJurados.unique();
 
-
-	list<Persona>::iterator prueba;
-	prueba = listaDirectores_repetidos.begin();
-	for (prueba ; prueba != listaDirectores_repetidos.end() ; prueba++)
-	{
-		cout << prueba->getNombre() << "   ";
-	}
-	cout << "\n";
-	prueba = listaDirectores.begin();
-	for (prueba ; prueba != listaDirectores.end() ; prueba++)
-	{
-		cout << prueba->getNombre() << "   ";
-	}
-	cout << "\n";
-	cout << "2" << endl;
-
-
-
-	list<Persona>::iterator jurado_original = listaJurados_repetidos.begin();
-	list<Persona>::iterator jurado_copia;
-	for (jurado_original ; jurado_original != listaJurados_repetidos.end() ; jurado_original++)
-	{
-		this->numero_jurados = 0;
-		jurado_copia = listaJurados.begin();
-		for (jurado_copia ; jurado_copia != listaJurados.end() ; jurado_copia++)
-		{
-			if (jurado_copia->getNombre() == jurado_original->getNombre())
-			{
-				if (numero_jurados >= 1)
-				{
-					listaJurados.erase(jurado_copia);	
-				}
-				numero_jurados++;
-			}
-		}
-	}
 	this->numero_jurados = listaJurados.size();
-	
-
-
-	prueba = listaJurados_repetidos.begin();
-	for (prueba ; prueba != listaJurados_repetidos.end() ; prueba++)
-	{
-		cout << prueba->getNombre() << "	";
-	}
-
-	prueba = listaJurados.begin();
-	for (prueba ; prueba != listaJurados.end() ; prueba++)
-	{
-		cout << prueba->getNombre()<< "	";
-	}
-	cout << "2" << endl;
-
-
 
 	while(stop)
 	{
-		
+		clean();		
 		indice=1;
 		list<Acta>::iterator acta = listaActas.begin();
 		cout << "Seleccione el indice del criterio para listar" << endl;
@@ -1372,6 +1329,7 @@ void Postgrado::listarActas()
 			{
 				case 1:
 				{
+					clean();
 					for (acta ; acta != listaActas.end() ; acta++)
 					{
 						Persona estudiante = acta->getEstudiante();
@@ -1388,6 +1346,7 @@ void Postgrado::listarActas()
 				break;
 				case 2:
 				{
+					clean();
 					for (acta ; acta != listaActas.end() ; acta++)
 					{
 						if ( acta->getEstadoBin() == 1)
@@ -1407,6 +1366,7 @@ void Postgrado::listarActas()
 				break;
 				case 3:
 				{
+					clean();
 					for (acta ; acta != listaActas.end() ; acta++)
 					{
 						if ( acta->getEstadoBin() == 0)
@@ -1426,6 +1386,7 @@ void Postgrado::listarActas()
 				break;
 				case 4:
 				{
+					clean();
 					for (acta ; acta != listaActas.end() ; acta++)
 					{
 						if ( acta->getModalidadBin() == 1)
@@ -1445,6 +1406,7 @@ void Postgrado::listarActas()
 				break;
 				case 5:
 				{
+					clean();
 					for (acta ; acta != listaActas.end() ; acta++)
 					{
 						if ( acta->getModalidadBin() == 0)
@@ -1464,16 +1426,19 @@ void Postgrado::listarActas()
 				break;
 				case 6:
 				{
+					clean();
 					listarporDirector();
 				}
 				break;
 				case 7:
 				{
+					clean();
 					listarporJurado();
 				}
 				break;
 				case 8:
 				{
+					clean();
 					for (acta ; acta != listaActas.end() ; acta++)
 					{
 						if ( acta->getAprovacion() == 2)
@@ -1493,6 +1458,7 @@ void Postgrado::listarActas()
 				break;
 				case 9:
 				{
+					clean();
 					for (acta ; acta != listaActas.end() ; acta++)
 					{
 						if ( acta->getAprovacion() == 1)
@@ -1512,16 +1478,42 @@ void Postgrado::listarActas()
 				break;
 				case 10:
 				{
-					list<Persona>::iterator jurado_interno = listaJurados.begin();
-					for (jurado_interno;jurado_interno != listaJurados.end();jurado_interno++) 
+					clean();
+					list<string>::iterator jurado_interno = listaJurados.begin();
+					acta = listaActas.begin();
+					for (acta;acta != listaActas.end();acta++) 
 					{
-						if ( jurado_interno->getUbicacionBin() == 0)
+						jurado_interno = listaJurados.begin();
+						jurado1 = acta->getJurado1();
+						jurado2 = acta->getJurado2();
+						nombre_jurado1 = jurado1.getNombre();
+						nombre_jurado2 = jurado2.getNombre();
+
+						for (jurado_interno;jurado_interno != listaJurados.end();jurado_interno++)
 						{
-							cout << indice++ << ". ";
-							cout << "Nombre: " << jurado_interno->getNombre() << "     ";
-							cout << "Ubicacion: " << jurado_interno->getUbicacion() << "     ";
-							cout << "Email: " << jurado_interno->getEmail() << endl;
+							if ( *jurado_interno == nombre_jurado1)
+							{
+								if (jurado1.getUbicacionBin() == 0)
+								{
+									cout << indice++ << ". ";
+									cout << "Nombre: " << jurado1.getNombre() << "     ";
+									cout << "Ubicacion: " << jurado1.getUbicacion() << "     ";
+									cout << "Email: " << jurado1.getEmail() << endl;
+								}
+								
+							}
+							else if (*jurado_interno == nombre_jurado2) 
+							{
+								if (jurado2.getUbicacionBin() == 0)
+								{
+									cout << indice++ << ". ";
+									cout << "Nombre: " << jurado2.getNombre() << "     ";
+									cout << "Ubicacion: " << jurado2.getUbicacion() << "     ";
+									cout << "Email: " << jurado2.getEmail() << endl;
+								}
+							}
 						}
+						
 					}
 					cout << "Seleccione 0 y presione la tecla Enter para volver..." << endl;
 					cin >> pause;
@@ -1529,16 +1521,42 @@ void Postgrado::listarActas()
 				break;
 				case 11:
 				{
-					list<Persona>::iterator jurado_externo = listaJurados.begin();
-					for (jurado_externo;jurado_externo != listaJurados.end();jurado_externo++) 
+					clean();
+					list<string>::iterator jurado_interno;
+					acta = listaActas.begin();
+					for (acta;acta != listaActas.end();acta++) 
 					{
-						if ( jurado_externo->getUbicacionBin() == 1)
+						jurado_interno = listaJurados.begin();
+						jurado1 = acta->getJurado1();
+						jurado2 = acta->getJurado2();
+						nombre_jurado1 = jurado1.getNombre();
+						nombre_jurado2 = jurado2.getNombre();
+
+						for (jurado_interno;jurado_interno != listaJurados.end();jurado_interno++)
 						{
-							cout << indice++ << ". ";
-							cout << "Nombre: " << jurado_externo->getNombre() << "     ";
-							cout << "Ubicacion: " << jurado_externo->getUbicacion() << "     ";
-							cout << "Email: " << jurado_externo->getEmail() << endl;
+							if ( *jurado_interno == nombre_jurado1)
+							{
+								if (jurado1.getUbicacionBin() == 1)
+								{
+									cout << indice++ << ". ";
+									cout << "Nombre: " << jurado1.getNombre() << "     ";
+									cout << "Ubicacion: " << jurado1.getUbicacion() << "     ";
+									cout << "Email: " << jurado1.getEmail() << endl;
+								}
+								
+							}
+							else if (*jurado_interno == nombre_jurado2) 
+							{
+								if (jurado2.getUbicacionBin() == 1)
+								{
+									cout << indice++ << ". ";
+									cout << "Nombre: " << jurado2.getNombre() << "     ";
+									cout << "Ubicacion: " << jurado2.getUbicacion() << "     ";
+									cout << "Email: " << jurado2.getEmail() << endl;
+								}
+							}
 						}
+						
 					}
 					cout << "Seleccione 0 y presione la tecla Enter para volver..." << endl;
 					cin >> pause;

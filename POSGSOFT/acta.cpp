@@ -231,17 +231,17 @@ void Acta::calcularAprobacion()
 	calcularNotaFinal();
 	if (nota_final > 3.5 )
 	{
-		aprobacion = 3;
+		this->aprobacion = 3;
 	}
 	else
 	{
-		aprobacion = 1;
+		this->aprobacion = 1;
 	}
 }
 
 string Acta::aprobacionFinal()
 {
-	string aprobado="Aprovado", pendiente = "Pendientes", rechazado = "Rechazado";
+	string aprobado="Aprobado", pendiente = "Pendiente", rechazado = "Rechazado";
 	if (aprobacion == 1)
 	{
 		return aprobado;

@@ -52,7 +52,7 @@ class Postgrado
 		void crearActa();
 		void listarActas();
 		void archivoTexto(list<Acta>::iterator);
-		void crearArchivoTexto();
+		int crearArchivoTexto();
 		void listarporDirector();
 		void listarporJurado();
 
