@@ -19,6 +19,7 @@ class Persona
 		string getNombre();
 		void setNombre(string);
 		string getUbicacion();
+		bool getUbicacionBin();
 		void setUbicacion(bool);
 		string getEmail();
 		void setEmail(string);

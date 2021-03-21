@@ -20,7 +20,7 @@ class Acta
 		int numero_acta,aprobacion=2,count_jurados=0,count_criterios=0;
 		string fecha,periodo,enfasis,nombre;
 		Persona estudiante,director,codirector,jurado1,jurado2;
-		bool modalidad,estado=1;
+		bool modalidad=1,estado=1;
 		string observacion;
 		string observacion_aprobacion;
 		list<Criterio> listaCriterios;

@@ -35,6 +35,11 @@ string Persona::getUbicacion()
 	}
 }
 
+bool Persona::getUbicacionBin()
+{
+	return ubicacion;
+}
+
 void Persona::setUbicacion(bool ubicacion)
 {
 	this->ubicacion = ubicacion;
