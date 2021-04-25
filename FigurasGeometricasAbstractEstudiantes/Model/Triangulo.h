@@ -18,14 +18,15 @@ class Triangulo : public FiguraGeometrica
 {
 private:
     float base, altura;
-    float area, perimetro;
+
+protected:
+	float area,perimetro;
 
 public:
     Triangulo();
     Triangulo(float base, float altura);
     virtual void calcularArea();
     virtual void calcularPerimetro();
-    virtual void mostrarFigura();
 };
 
 //#endif /* !TRIANGULO_H */

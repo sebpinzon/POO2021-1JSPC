@@ -10,6 +10,11 @@ FiguraGeometrica::FiguraGeometrica(string color)
     this->color = color;
 }
 
+void FiguraGeometrica::mostrarFigura()
+{
+    cout << "El color de la figura es : " << this->color << "\n";
+}
+
 // Getters y setters
 string FiguraGeometrica::getColor() const
 {
@@ -28,9 +33,4 @@ float FiguraGeometrica::getArea() const
 float FiguraGeometrica::getPerimetro() const
 {
     return this->perimetro;
-}
-
-void FiguraGeometrica::mostrarFigura();
-{
-    cout << "Color" << color << endl;
 }

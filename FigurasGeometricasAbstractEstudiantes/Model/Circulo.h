@@ -18,7 +18,6 @@ class Circulo : public FiguraGeometrica
 private: //atributos
     float radio;
     const static float PI;
-    float area, perimetro;
 
 public:
     Circulo(); //NO OLVIDAR

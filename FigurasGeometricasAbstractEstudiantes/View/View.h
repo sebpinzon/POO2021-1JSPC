@@ -19,9 +19,9 @@ public:
     void pedirDatosRectangulo();
     void pedirDatosCirculo();
     void pedirDatosTriangulo();
+    void pedirDatosCuadrado();
     void mostrarRectangulos();
     void mostrarCirculos();
-    void mostrarTriangulos();
     void mostrarTodos();
     int mostrarMenu();
     void verPrincipal();

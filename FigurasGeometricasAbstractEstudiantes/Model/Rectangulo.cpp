@@ -15,31 +15,33 @@ Rectangulo::Rectangulo(float ancho, float largo)
 
 void Rectangulo::calcularArea()
 {
-    this->area = largo * ancho;
-    
+    // float area; // shadow variable -- modificando es la variable local
+    this->area = this->largo * this->ancho;
 }
 
 void Rectangulo::calcularPerimetro()
 {
-    
-    this->perimetro = (2 * largo) + (2 * ancho);
-    
+    //float perimetro;
+    this->perimetro = (2 * this->largo) + (2 * this->ancho);
 }
 
 void Rectangulo::mostrarFigura()
 {
     cout << "El ancho: " << ancho << " -- "
          << "el largo: " << largo << endl;
-    if (area == 0)
+    if (this->area == 0) // si no he calculado el area
     {
-        calcularArea();
+        this->calcularArea();
     }
-    if (perimetro == 0)
+    if (this->perimetro == 0)
     {
-        calcularPerimetro();
+        this->calcularPerimetro();
     }
-    cout << "El perimetro: " << perimetro << " -- "
-         << "el area: " << area << endl;
+    cout << "El area del rectangulo es: " << this->area << endl;
+    cout << "El perimetro del rectangulo es : " << perimetro << endl;
+
+    // LLamo al mostrarFigura delegado
+    FiguraGeometrica::mostrarFigura();
 }
 
 float Rectangulo::getAncho()

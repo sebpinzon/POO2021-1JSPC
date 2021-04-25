@@ -23,11 +23,13 @@ protected:
 public:
     FiguraGeometrica(); //NO OLVIDAR
     FiguraGeometrica(string color);
+    virtual void calcularArea() = 0;      // Metodo virtual puro
+    virtual void calcularPerimetro() = 0; // Metodo virtual puro
+    virtual void mostrarFigura();
     string getColor() const;
     void setColor(string);
     float getArea() const;
     float getPerimetro() const;
-    void mostrarFigura();
 };
 
 #endif /* !FIGURA_GEOMETRICA_H */

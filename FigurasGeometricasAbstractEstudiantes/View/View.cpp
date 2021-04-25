@@ -30,6 +30,34 @@ void View::pedirDatosCirculo()
     controller.agregarCirculo(radio);
 }
 
+void View::pedirDatosTriangulo()
+{
+    float base,altura;
+    do
+    {
+        cout << "Digite el la longitud de la base " << endl;
+        cin >> base;
+        cout << "Digite el la longitud de la altura " << endl;
+        cin >> altura;
+    } while (altura <= 0 || base <= 0);
+
+    // Se llama al metodo del controller
+    controller.agregarTriangulo(base,altura);
+}
+
+void View::pedirDatosCuadrado()
+{
+    float lado;
+    do
+    {
+        cout << "Digite el lado " << endl;
+        cin >> lado;
+    } while (lado <= 0);
+
+    // Se llama al metodo del controller
+    controller.agregarCuadrado(lado);
+}
+
 void View::mostrarRectangulos()
 {
     //  list<Clase_a_recorrer>:: iterator nombre_iterador = nombre_lista_de_Clase.begin(); it != nombre_lista_de_Clase.end(); i++;
@@ -44,12 +72,15 @@ void View::mostrarRectangulos()
 
 void View::mostrarTodos()
 {
+    // LLama al que llena las figuras
+    controller.llenarListaTodosDummy();
+
     list<FiguraGeometrica *> &pListaFiguras = controller.getListaFiguras();
     cout << "Cantidad de figuras " << pListaFiguras.size() << "\n";
     int cont = 0;
     for (list<FiguraGeometrica *>::iterator it = pListaFiguras.begin(); it != pListaFiguras.end(); ++it)
     {
-        FiguraGeometrica *tmp = *it;
+        FiguraGeometrica *tmp = *it; // Por descifrar
         cout << "Figura con polimorfismo:" << ++cont << ":" << endl;
         tmp->mostrarFigura();
         cout << "\n";
@@ -95,7 +126,6 @@ void View::verPrincipal()
             break;
         case 7:
             mostrarTodos();
-            break;
         case 11:
         {
             Rectangulo &rectangulo = controller.encontrarMayorAncho();
