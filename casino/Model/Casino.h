@@ -32,7 +32,7 @@ public:
     vector<Juego*> &consultarJuegos();
     bool verExisteJugador(long id);
     Jugador* consultarJugador(long id);
-    void agregarJugador(Jugador * pJugador);
+    void agregarJugador(Jugador *pJugador);
     void retirarJugador (long id);
 
 };

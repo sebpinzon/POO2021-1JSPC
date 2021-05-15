@@ -13,7 +13,11 @@
 class DosColores:public Juego {
 
 protected:
-    float calcularResultado(float gonzosApostar,int& numeroJugador,int& numeroCasino,int& colorJugador,int& colorCasino);
+    int numeroCasino;
+    int numeroJugador;
+    int colorCasino;
+    int colorJugador;
+    float calcularResultado(float gonzosApostar);
 
 public:
     float jugar(float gonzosApostar) override;

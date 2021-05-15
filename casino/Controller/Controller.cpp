@@ -20,7 +20,7 @@ void Controller::agregarJugador(long id, string nombreJugador, double dinero)
     // Se agrega jugador solo si no existe con anticipacion
     if (casino.verExisteJugador(id) == false){
         // Se convierte el dinero a Gonzos
-        float cantGonzos = casino.convertirPesosAGonzos(dinero);
+        double cantGonzos = casino.convertirPesosAGonzos(dinero);
         Jugador *pJugador = new Jugador (id, nombreJugador, cantGonzos);
         casino.agregarJugador(pJugador);
 

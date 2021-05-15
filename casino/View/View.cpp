@@ -10,7 +10,7 @@ View::View(){
 void View::agregarJugador()
 {
     string nombreJugador;
-    float dineroPesos;
+    double dineroPesos;
     long idJugador;
     cout << "Ingrese el nombre del jugador \n";
     cin.ignore(100, '\n');
@@ -124,12 +124,18 @@ void View::verPrincipal()
     } while (opcion != 0 || opcion >= 3);
 }
 
-void View::mostrarJugador(long idJugador) {
+void View::mostrarJugador() {
     // LLama al metodo del controller que muestra los datos
+    long idJugador;
+    cout << "Ingrese el ID del jugador a mostrar: ";
+    cin >> idJugador;
     controller.verInfoJugador(idJugador);
 }
 
-void View::retirarJugador(long idJugador) {
+void View::retirarJugador() {
+    long idJugador;
+    cout << "Ingrese el ID del jugador a retirar: ";
+    cin >> idJugador;
     controller.retirarJugador(idJugador);
 }
 

@@ -13,7 +13,10 @@
 class Mayor13 : public Juego {
 
 protected:
-    virtual float calcularResultado(float gonzosApostar,int& numeroJugador,int& opcion) ;
+    int numeroCasino;
+    int numeroJugador;
+    int opcion;
+    virtual float calcularResultado(float gonzosApostar) ;
 public:
     virtual ~Mayor13();
     virtual float jugar(float gonzosApostar) ;

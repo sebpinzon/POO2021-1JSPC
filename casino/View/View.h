@@ -17,7 +17,7 @@ private:
     void jugarView(long idJugador);
     void agregarJugador();
     void retirarJugador();
-    void mostrarJugador(long idJugador);
+    void mostrarJugador();
 
 public:
     View();

@@ -30,7 +30,7 @@ private:
 
 public:
     Jugador();
-    Jugador(long id, string nombre, float cantGonzos);
+    Jugador(long id, string nombre, double cantGonzos);
     ~Jugador(); // Destructor
     void aumentarJuegos();
     void mostrarInfo(); // Presenta información del diner, los gonzos, cantidad de juegos ganados y perdidos

@@ -5,7 +5,6 @@
 #include "Mayor13.h"
 
 float Mayor13::jugar(float gonzosApostar) {
-	int opcion=0;
     srand(time(NULL));
     // para calcular numero aleatorio variable = limite_inferior + rand() % (limite_superior +1 - limite_inferior) ;
     numeroJugador = 1+rand()%14;// numeros de 1 a 13
@@ -20,15 +19,14 @@ float Mayor13::jugar(float gonzosApostar) {
 	}
 	while((opcion <= 0)||(opcion >= 3));
 
-    float gonzosResulado = calcularResultado(gonzosApostar,numeroJugador,opcion);
+    float gonzosResulado = calcularResultado(gonzosApostar);
     return gonzosResulado;
 
     return 0;
 }
 
 
-float Mayor13::calcularResultado(float gonzosApostar,int& numeroJugador,int& opcion) {
-	int numeroCasino;
+float Mayor13::calcularResultado(float gonzosApostar) {
 	srand(time(NULL));
 	if (opcion == 1)
 	{
@@ -46,8 +44,6 @@ float Mayor13::calcularResultado(float gonzosApostar,int& numeroJugador,int& opc
 	else{
 		return gonzosApostar/2;
 	}
-    
-
 }
 
 Mayor13::~Mayor13() {

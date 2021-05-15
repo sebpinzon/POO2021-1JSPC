@@ -6,14 +6,6 @@
 
 #IncludeRegexTransform: 
 
-C:/Users/sebastian/Desktop/POO/POO2021-1JSPC/casino/Controller/Controller.cpp
-Controller.h
-C:/Users/sebastian/Desktop/POO/POO2021-1JSPC/casino/Controller/Controller.h
-../Model/Mayor13.h
-C:/Users/sebastian/Desktop/POO/POO2021-1JSPC/casino/Model/Mayor13.h
-../Model/DosColores.h
-C:/Users/sebastian/Desktop/POO/POO2021-1JSPC/casino/Model/DosColores.h
-
 C:/Users/sebastian/Desktop/POO/POO2021-1JSPC/casino/Controller/Controller.h
 ../Model/Jugador.h
 C:/Users/sebastian/Desktop/POO/POO2021-1JSPC/casino/Model/Jugador.h
@@ -30,10 +22,6 @@ cstdlib
 ctime
 -
 
-C:/Users/sebastian/Desktop/POO/POO2021-1JSPC/casino/Model/Casino.cpp
-Casino.h
-C:/Users/sebastian/Desktop/POO/POO2021-1JSPC/casino/Model/Casino.h
-
 C:/Users/sebastian/Desktop/POO/POO2021-1JSPC/casino/Model/Casino.h
 iostream
 -
@@ -43,22 +31,8 @@ vector
 -
 map
 -
-pair
--
 Juego.h
 C:/Users/sebastian/Desktop/POO/POO2021-1JSPC/casino/Model/Juego.h
-
-C:/Users/sebastian/Desktop/POO/POO2021-1JSPC/casino/Model/DosColores.cpp
-DosColores.h
-C:/Users/sebastian/Desktop/POO/POO2021-1JSPC/casino/Model/DosColores.h
-
-C:/Users/sebastian/Desktop/POO/POO2021-1JSPC/casino/Model/DosColores.h
-Juego.h
-C:/Users/sebastian/Desktop/POO/POO2021-1JSPC/casino/Model/Juego.h
-cstdlib
--
-ctime
--
 
 C:/Users/sebastian/Desktop/POO/POO2021-1JSPC/casino/Model/Juego.h
 Jugador.h
@@ -70,14 +44,6 @@ iostream
 string
 -
 
-C:/Users/sebastian/Desktop/POO/POO2021-1JSPC/casino/Model/Mayor13.h
-Juego.h
-C:/Users/sebastian/Desktop/POO/POO2021-1JSPC/casino/Model/Juego.h
-cstdlib
--
-ctime
--
-
 C:/Users/sebastian/Desktop/POO/POO2021-1JSPC/casino/View/View.cpp
 View.h
 C:/Users/sebastian/Desktop/POO/POO2021-1JSPC/casino/View/View.h
@@ -85,10 +51,4 @@ C:/Users/sebastian/Desktop/POO/POO2021-1JSPC/casino/View/View.h
 C:/Users/sebastian/Desktop/POO/POO2021-1JSPC/casino/View/View.h
 ../Controller/Controller.h
 C:/Users/sebastian/Desktop/POO/POO2021-1JSPC/casino/Controller/Controller.h
-
-C:/Users/sebastian/Desktop/POO/POO2021-1JSPC/casino/main.cpp
-View/View.h
-C:/Users/sebastian/Desktop/POO/POO2021-1JSPC/casino/View/View.h
-iostream
--
 

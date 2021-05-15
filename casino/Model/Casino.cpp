@@ -16,7 +16,7 @@ void Casino::agregarJuego(Juego* juego) {
 
 void Casino::agregarJugador(Jugador *pJugador) {
     cout << "Agrendo jugador..." << endl;
-    jugadoresMap.insert(pair<long, Jugador*> (pJugador->getId(),*pJugador));
+    jugadoresMap.insert(pair<long, Jugador*> (pJugador->getId(),pJugador));
 }
 
 bool Casino::verExisteJugador(long id) {
